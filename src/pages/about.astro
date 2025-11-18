@@ -2,15 +2,29 @@
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
+
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const response = await fetch("https://randomuser.me/api/?results=5");
+const {results:users, info} = await response.json();
+
+
 ---
 
-<Layout>
-    <h1>ABOUT Astro</h1>
 
-<!-- visualizzazione degli utenti che sono stati
-    caricati con la fetch da randomuser.me -->
-    
-	<Welcome />
+<Layout>
+    <h1 class="text-4xl font-bold">Utenti Random</h1>
+    <section id="users">
+        {users.map((user:any) => (
+            <div>
+                <p>{user.name.first} {user.name.last} - {user.dob.age} anni</p>
+                <img src={user.picture.large} alt={`Foto di ${user.name.first} ${user.name.last}`} />
+            </div>
+        ))
+        }
+
+
+    </section>
+
+
 </Layout>
